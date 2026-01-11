@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowWise - Never Lose a Job to Voicemail | AI for Garage Door Companies</title>
+    <meta name="description"
+        content="Answer every garage door call in 2 seconds, 24/7. Book jobs automatically with AI. Get your next 3 jobs free. Built specifically for garage door businesses.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#2a9fff',
+                        'brand-dark': '#1e7ed9',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html {
+            font-size: 75%;
+            /* Slightly larger on mobile for readability */
+        }
+
+        @media (min-width: 768px) {
+            html {
+                font-size: 72%;
+                /* User preferred density on desktop */
+            }
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes surf-float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+
+            33% {
+                transform: translateY(-12px) translateX(8px) scale(1.02);
+            }
+
+            66% {
+                transform: translateY(-4px) translateX(-8px) scale(1.01);
+            }
+        }
+
+        .animate-float {
+            animation: surf-float 4.8s ease-in-out infinite;
+        }
+
+        .animate-pulse-dot {
+            animation: pulse-dot 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Base transitions for hover effects */
+        .transition-hover {
+            transition: all 0.4s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+
+        .hover-border:hover {
+            border-color: #2a9fff;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer.active {
+            max-height: 500px;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .chevron.active {
+            transform: rotate(90deg);
+        }
+
+        /* Flow by Flow (Text Reveal) Logic */
+        .reveal-text {
+            background: linear-gradient(to right, #2a9fff 50%, #6b7280 50%);
+            background-size: 200% 100%;
+            background-position: 100% 0;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+            transition: background-position 2.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            transition-delay: 1.2s !important;
+        }
+
+        .reveal-visible .reveal-text {
+            background-position: 0 0;
+        }
+
+        /* Mobile Menu Styles */
+        #mobile-menu {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(-20px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Reveal Animations System (Unified 3.2s) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 3.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            will-change: opacity, transform;
+        }
+
+        .reveal-rise {
+            transform: translateY(60px);
+        }
+
+        .reveal-fade {
+            transform: translateY(0);
+        }
+
+        .reveal-scale {
+            transform: scale(0.96);
+        }
+
+        .reveal-slide-left {
+            transform: translateX(-40px);
+        }
+
+        .reveal-slide-right {
+            transform: translateX(40px);
+        }
+
+        .reveal-fast {
+            transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+
+        .reveal.reveal-visible {
+            opacity: 1;
+            transform: translate(0) scale(1) !important;
+        }
+
+        /* Deliberate Staggered Delays (200ms increments) */
+        .reveal-delay-100 {
+            transition-delay: 200ms !important;
+        }
+
+        .reveal-delay-200 {
+            transition-delay: 400ms !important;
+        }
+
+        .reveal-delay-300 {
+            transition-delay: 600ms !important;
+        }
+
+        .reveal-delay-400 {
+            transition-delay: 800ms !important;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased bg-white text-gray-900">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-hover duration-[1200ms]">
+        <div id="nav-container"
+            class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between rounded-full transition-hover duration-[1200ms] mt-4 px-8">
+            <!-- Logo -->
+            <a href="preview.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <div
+                    class="w-8 h-8 md:w-10 md:h-10 bg-brand rounded-full flex items-center justify-center shrink-0 shadow-lg shadow-brand/20">
+                    <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <span class="font-semibold text-lg md:text-[1.375rem] tracking-tight">FlowWise</span>
+            </a>
+
+            <!-- Desktop Actions -->
+            <div class="hidden lg:flex items-center gap-8">
+                <!-- Navigation Links -->
+                <nav class="flex items-center gap-8">
+                    <a href="about.html"
+                        class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">About</a>
+                    <a href="contact.html"
+                        class="text-sm font-medium text-gray-600 hover:text-brand transition-colors">Contact</a>
+                </nav>
+
+                <!-- CTA Button -->
+                <a href="https://cal.com/flowwise/15min" target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold bg-brand text-white hover:bg-brand-dark hover:scale-105 transition-hover shadow-lg text-sm">
+                    Book Free Audit
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Mobile Burger -->
+            <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-600 hover:text-brand focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="lg:hidden absolute top-full left-6 right-6 mt-4 p-6 bg-white rounded-3xl shadow-2xl border border-gray-100 flex flex-col gap-4">
+            <a href="about.html"
+                class="text-lg font-medium text-gray-600 px-4 py-2 hover:bg-gray-50 rounded-xl">About</a>
+            <a href="contact.html"
+                class="text-lg font-medium text-gray-600 px-4 py-2 hover:bg-gray-50 rounded-xl">Contact</a>
+            <hr class="border-gray-100 my-2">
+            <a href="https://cal.com/flowwise/15min" target="_blank" rel="noopener"
+                class="bg-brand text-white text-center py-4 rounded-2xl font-bold shadow-lg shadow-brand/20">
+                Book Free Audit
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+        class="relative min-h-screen flex items-center justify-center px-6 pt-32 pb-32 overflow-hidden transform scale-[1.12] origin-center">
+        <!-- Gradient Background -->
+        <div class="absolute inset-0 -z-10">
+            <div class="absolute top-0 left-0 w-[750px] h-[750px] bg-blue-200/60 rounded-full blur-[120px]"></div>
+            <div class="absolute top-0 right-0 w-[900px] h-[900px] bg-cyan-200/50 rounded-full blur-[140px]"></div>
+            <div
+                class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1100px] h-[1100px] bg-blue-100/40 rounded-full blur-[160px]">
+            </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto text-center transform translate-y-12 reveal reveal-rise">
+            <!-- Main Headline - Reduced size by ~20% -->
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tighter leading-[1.1] mb-12">
+                Never Lose a <span class="text-brand">$300 Job</span> to Voicemail Again
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="text-lg md:text-xl text-gray-500 mb-16 max-w-3xl mx-auto leading-relaxed">
+                We answer every garage door call in 2 seconds and book jobs 24/7 while you focus on the work. Your next
+                3 jobs are free.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <a href="https://cal.com/flowwise/15min" target="_blank" rel="noopener"
+                    class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold bg-brand text-white hover:bg-brand-dark hover-scale transition-hover shadow-lg shadow-blue-200">
+                    Book Free Revenue Audit
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
+
+
+            <!-- Risk Reversal Badge -->
+            <div
+                class="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-green-50 text-green-900 border border-green-200">
+                <div class="w-6 h-6 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <span class="font-medium">Get Your Next 3 Jobs Free • Zero Payment Until ROI</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problem" class="py-32 px-6 bg-gray-50 reveal reveal-fade">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-12">
+                    Your Phone Is Costing You Thousands<br>Every Month
+                </h2>
+                <p class="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto">
+                    Every missed call is a $300–$1,000 job going straight to your competitor. Here's what's really
+                    happening:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Problem Card 1 -->
+                <div
+                    class="bg-white border border-gray-200 rounded-2xl p-8 hover-lift hover-border transition-hover reveal reveal-scale reveal-fast h-full">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 8l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Peak Hour Chaos</h3>
+                    <p class="text-gray-600 leading-relaxed">You're on a jobsite, hands full, phone ringing. That
+                        emergency garage door repair? Just went to voicemail. The homeowner calls the next company in 30
+                        seconds.</p>
+                </div>
+
+                <!-- Problem Card 2 -->
+                <div
+                    class="bg-white border border-gray-200 rounded-2xl p-8 hover-lift hover-border transition-hover reveal reveal-scale reveal-fast reveal-delay-100 h-full">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">After-Hours Black Hole</h3>
+                    <p class="text-gray-600 leading-relaxed">It's 8 PM. Someone's garage won't close. They need help
+                        NOW. Your voicemail says 'call back tomorrow.' Competitor's AI books it in 60 seconds.</p>
+                </div>
+
+                <!-- Problem Card 3 -->
+                <div
+                    class="bg-white border border-gray-200 rounded-2xl p-8 hover-lift hover-border transition-hover reveal reveal-scale reveal-fast reveal-delay-200 h-full">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Ad Spend Waste</h3>
+                    <p class="text-gray-600 leading-relaxed">You pay $50–$150 per click to get the phone ringing. Then
+                        voicemail answers. You're literally paying competitors to steal your leads.</p>
+                </div>
+
+                <!-- Problem Card 4 -->
+                <div
+                    class="bg-white border border-gray-200 rounded-2xl p-8 hover-lift hover-border transition-hover reveal reveal-scale reveal-fast reveal-delay-300 h-full">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-yellow-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">No Visibility, No Control</h3>
+                    <p class="text-gray-600 leading-relaxed">You don't even know how many calls you're missing. No
+                        tracking, no follow-up, no second chances. Just silent revenue loss every single day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="py-20 px-6 bg-white reveal reveal-rise">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-12">
+                    The 24/7 Garage Revenue Accelerator
+                </h2>
+                <p class="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto">
+                    FlowWise answers every call in under 2 seconds, qualifies the lead, and books the job while you
+                    stay focused on the work that pays.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Feature 1 -->
+                <div
+                    class="bg-white border border-blue-100 rounded-3xl p-8 hover-lift transition-hover text-left group reveal reveal-fade h-full">
+                    <div
+                        class="w-12 h-12 bg-brand text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-[1200ms]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Answer in 2 Seconds</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Every call answered instantly, 24/7. No more
+                        voicemail.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div
+                    class="bg-white border border-blue-100 rounded-3xl p-8 hover-lift transition-hover text-left group reveal reveal-fade reveal-delay-100 h-full">
+                    <div
+                        class="w-12 h-12 bg-brand text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-[1200ms]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Books Jobs Auto</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">AI qualifies callers and schedules appointments
+                        directly.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div
+                    class="bg-white border border-blue-100 rounded-3xl p-8 hover-lift transition-hover text-left group reveal reveal-fade reveal-delay-200 h-full">
+                    <div
+                        class="w-12 h-12 bg-brand text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-[1200ms]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">After-Hours $</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Capture emergency calls at 10 PM. Earn while
+                        sleeping.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div
+                    class="bg-white border border-blue-100 rounded-3xl p-8 hover-lift transition-hover text-left group reveal reveal-fade reveal-delay-300 h-full">
+                    <div
+                        class="w-12 h-12 bg-brand text-white rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-[1200ms]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Zero Hiring</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">No call centers, no VAs. Set it up once and let it
+                        run.</p>
+                </div>
+            </div>
+
+            <div
+                class="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-2xl p-12 text-center animate-float shadow-[0_25px_60px_-15px_rgba(22,163,74,0.2)]">
+                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        stroke-width="3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-3xl md:text-4xl font-semibold mb-4">
+                    Your Next 3 Jobs Are Completely Free
+                </h3>
+                <p class="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed">
+                    We don't get paid until you do. Zero upfront cost, zero monthly fees until we prove ROI. If we don't
+                    book 3 jobs, you owe us nothing.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact & Efficiency Section -->
+    <section class="px-6 md:px-0 py-20 px-6 bg-white overflow-hidden reveal reveal-rise">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Column: Visual Dashboard -->
+                <div class="relative reveal reveal-slide-left">
+                    <!-- Main Dashboard Card -->
+                    <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 relative z-10">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900">Efficiency Growth</h3>
+                                <p class="text-sm text-gray-500">Time Spent vs. Jobs Booked</p>
+                            </div>
+                            <div class="flex gap-4 text-xs font-medium">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-gray-200"></span>
+                                    <span class="text-gray-500">Admin Hours</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-3 h-3 rounded-full bg-brand"></span>
+                                    <span class="text-gray-900">Revenue</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CSS Chart Area -->
+                        <div
+                            class="flex items-end justify-between h-64 gap-6 pt-8 border-b border-gray-100 pb-2 relative">
+                            <!-- Y-Axis Grid Lines (Background) -->
+                            <div class="absolute inset-0 flex flex-col justify-between pointer-events-none pb-8">
+                                <div class="w-full h-px bg-gray-50"></div>
+                                <div class="w-full h-px bg-gray-50"></div>
+                                <div class="w-full h-px bg-gray-50"></div>
+                                <div class="w-full h-px bg-gray-50"></div>
+                                <div class="w-full h-px bg-gray-50"></div>
+                            </div>
+
+                            <!-- Month 1 -->
+                            <div class="flex flex-col items-center gap-2 w-full h-full group relative z-10">
+                                <div class="relative w-full flex justify-center items-end h-full gap-2">
+                                    <div
+                                        class="w-full bg-gray-100 rounded-t-lg h-[80%] group-hover:bg-gray-200 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            20h</div>
+                                    </div>
+                                    <div
+                                        class="w-full bg-brand/30 rounded-t-lg h-[15%] group-hover:bg-brand/40 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-brand font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            $0</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-gray-400 font-medium">Month 1</span>
+                            </div>
+
+                            <!-- Month 2 -->
+                            <div class="flex flex-col items-center gap-2 w-full h-full group relative z-10">
+                                <div class="relative w-full flex justify-center items-end h-full gap-2">
+                                    <div
+                                        class="w-full bg-gray-100 rounded-t-lg h-[60%] group-hover:bg-gray-200 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            15h</div>
+                                    </div>
+                                    <div
+                                        class="w-full bg-brand/60 rounded-t-lg h-[40%] group-hover:bg-brand/70 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-brand font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            $2k</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-gray-400 font-medium">Month 2</span>
+                            </div>
+
+                            <!-- Month 3 -->
+                            <div class="flex flex-col items-center gap-2 w-full h-full group relative z-10">
+                                <div class="relative w-full flex justify-center items-end h-full gap-2">
+                                    <div
+                                        class="w-full bg-gray-100 rounded-t-lg h-[30%] group-hover:bg-gray-200 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            8h</div>
+                                    </div>
+                                    <div
+                                        class="w-full bg-brand rounded-t-lg h-[75%] group-hover:bg-brand-dark transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-brand font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            $8k</div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-gray-400 font-medium">Month 3</span>
+                            </div>
+
+                            <!-- Month 4 -->
+                            <div class="flex flex-col items-center gap-2 w-full h-full group relative z-10">
+                                <div class="relative w-full flex justify-center items-end h-full gap-2">
+                                    <div
+                                        class="w-full bg-gray-100 rounded-t-lg h-[10%] group-hover:bg-gray-200 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            0h</div>
+                                    </div>
+                                    <div
+                                        class="w-full bg-brand rounded-t-lg h-[95%] shadow-[0_0_20px_rgba(42,159,255,0.4)] group-hover:scale-105 transition-hover duration-500 relative">
+                                        <div
+                                            class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] py-1 px-2 rounded shadow-lg whitespace-nowrap">
+                                            $15k+ Revenue
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-gray-400 font-medium">Month 4</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge -->
+                    <div
+                        class="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 animate-pulse-slow hidden md:block z-20">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 font-medium">Monthly Growth</div>
+                                <div class="text-lg font-bold text-gray-900">+42% Bookings</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Background Blur Decor -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-brand/5 blur-[100px] -z-10 rounded-full">
+                    </div>
+                </div>
+
+                <!-- Right Column: Content -->
+                <h1
+                    class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-gray-900 mb-8 leading-[1.1] reveal reveal-rise">
+                    The AI Assistant That <br> <span class="text-brand reveal-text">Answers for You</span>
+                </h1>
+                <p class="text-lg text-gray-500 mb-10 leading-relaxed">
+                    Stop acting as a receptionist. FlowWise automates the busywork so your time spent on the phone
+                    drops to zero—while your revenue chart goes vertical.
+                </p>
+
+                <!-- 2x2 Feature Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Card 1 -->
+                    <div
+                        class="bg-white rounded-2xl p-5 border border-gray-100 transition-hover hover:shadow-lg hover:border-red-100 group">
+                        <div
+                            class="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">Time on Phone</h4>
+                        <p class="text-xs text-gray-500">From 20 hrs/week to 0.</p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="bg-white rounded-2xl p-5 border border-gray-100 transition-hover hover:shadow-lg hover:border-brand-100 group">
+                        <div
+                            class="w-10 h-10 bg-blue-50 text-brand rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">Booking Rate</h4>
+                        <p class="text-xs text-gray-500">Capture 100% of leads.</p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="bg-white rounded-2xl p-5 border border-gray-100 transition-hover hover:shadow-lg hover:border-purple-100 group">
+                        <div
+                            class="w-10 h-10 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">Calendar Fill</h4>
+                        <p class="text-xs text-gray-500">Auto-scheduled jobs.</p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div
+                        class="bg-white rounded-2xl p-5 border border-gray-100 transition-hover hover:shadow-lg hover:border-orange-100 group">
+                        <div
+                            class="w-10 h-10 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">Speed to Lead</h4>
+                        <p class="text-xs text-gray-500">Instant 24/7 response.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- How It Works Section -->
+        <section class="px-6 md:px-0 py-20 px-6 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 reveal reveal-rise">
+                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-12">How It Works</h2>
+                    <p class="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto">
+                        From missed calls to booked jobs in 4 simple steps
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                    <!-- Step 1 -->
+                    <div class="text-center reveal reveal-scale flex flex-col">
+                        <div
+                            class="w-16 h-16 bg-brand rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
+                            <span class="text-2xl font-bold text-white">01</span>
+                        </div>
+                        <div
+                            class="bg-white border border-gray-200 rounded-2xl p-6 hover:border-brand hover-lift transition-hover flex-1">
+                            <div class="text-6xl font-bold text-brand/10 mb-2">01</div>
+                            <h3 class="text-xl font-semibold mb-3">Free Audit</h3>
+                            <p class="text-gray-600 leading-relaxed">We analyze your missed calls and show you the exact
+                                revenue you're losing right now.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="text-center reveal reveal-scale reveal-delay-100 flex flex-col">
+                        <div
+                            class="w-16 h-16 bg-brand rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
+                            <span class="text-2xl font-bold text-white">02</span>
+                        </div>
+                        <div
+                            class="bg-white border border-gray-200 rounded-2xl p-6 hover:border-brand hover-lift transition-hover flex-1">
+                            <div class="text-6xl font-bold text-brand/10 mb-2">02</div>
+                            <h3 class="text-xl font-semibold mb-3">Tool Integration</h3>
+                            <p class="text-gray-600 leading-relaxed">Connect your calendar and CRM. Takes 15 minutes,
+                                zero
+                                technical skills needed.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="text-center reveal reveal-scale reveal-delay-200 flex flex-col">
+                        <div
+                            class="w-16 h-16 bg-brand rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
+                            <span class="text-2xl font-bold text-white">03</span>
+                        </div>
+                        <div
+                            class="bg-white border border-gray-200 rounded-2xl p-6 hover:border-brand hover-lift transition-hover flex-1">
+                            <div class="text-6xl font-bold text-brand/10 mb-2">03</div>
+                            <h3 class="text-xl font-semibold mb-3">AI Training</h3>
+                            <p class="text-gray-600 leading-relaxed">We customize the AI to match your brand voice,
+                                pricing,
+                                and service area.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="text-center reveal reveal-scale reveal-delay-300 flex flex-col">
+                        <div
+                            class="w-16 h-16 bg-brand rounded-full flex items-center justify-center mb-6 mx-auto shrink-0">
+                            <span class="text-2xl font-bold text-white">04</span>
+                        </div>
+                        <div
+                            class="bg-white border border-gray-200 rounded-2xl p-6 hover:border-brand hover-lift transition-hover flex-1">
+                            <div class="text-6xl font-bold text-brand/10 mb-2">04</div>
+                            <h3 class="text-xl font-semibold mb-3">Launch & Earn</h3>
+                            <p class="text-gray-600 leading-relaxed">Go live same day. Your first 3 jobs are free. You
+                                only
+                                pay after proven ROI.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <a href="https://cal.com/flowwise/15min" target="_blank" rel="noopener"
+                        class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold bg-brand text-white hover:bg-brand-dark hover-scale transition-hover shadow-lg shadow-blue-200">
+                        Start Your Free Audit Now
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who It's For Section -->
+        <section class="px-6 md:px-0 py-20 px-6 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 reveal reveal-fade">
+                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-12 leading-relaxed">
+                        Built for Garage Door Companies<br>Who Want More Jobs
+                    </h2>
+                    <p class="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto">
+                        FlowWise is perfect for owner-operators running 2–10 technicians who are tired of losing
+                        revenue to
+                        voicemail.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Use Case 1 -->
+                    <div
+                        class="bg-white border border-gray-100 rounded-2xl p-8 hover-lift transition-hover text-center group reveal reveal-rise h-full">
+                        <div
+                            class="w-14 h-14 bg-blue-50 text-brand rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke-width="2" />
+                                <circle cx="12" cy="12" r="6" stroke-width="2" />
+                                <circle cx="12" cy="12" r="2" stroke-width="2" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Running Paid Ads</h3>
+                        <p class="text-gray-500 leading-relaxed text-sm">Stop wasting ad spend on calls that go to
+                            voicemail.
+                            Capture every lead you're paying for.</p>
+                    </div>
+
+                    <!-- Use Case 2 -->
+                    <div
+                        class="bg-white border border-gray-100 rounded-2xl p-8 hover-lift transition-hover text-center group reveal reveal-rise reveal-delay-100 h-full">
+                        <div
+                            class="w-14 h-14 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Handling Emergencies</h3>
+                        <p class="text-gray-600 leading-relaxed text-sm">Emergency calls are your highest-value jobs.
+                            Never miss
+                            another 10 PM broken spring again.</p>
+                    </div>
+
+                    <!-- Use Case 3 -->
+                    <div
+                        class="bg-white border border-gray-100 rounded-2xl p-8 hover-lift transition-hover text-center group reveal reveal-rise reveal-delay-200 h-full">
+                        <div
+                            class="w-14 h-14 bg-purple-50 text-purple-500 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform duration-[1200ms]">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2m16-10a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3">Scaling Without Hiring</h3>
+                        <p class="text-gray-500 leading-relaxed text-sm">Book more jobs without hiring receptionists,
+                            call
+                            centers,
+                            or virtual assistants.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="px-6 md:px-0 py-20 px-6 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 reveal reveal-rise">
+                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-12">
+                        Questions? We've Got Answers.
+                    </h2>
+                </div>
+
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <div
+                        class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand transition-hover faq-item reveal reveal-fade">
+                        <button class="w-full flex items-center justify-between text-left faq-question">
+                            <h3 class="text-xl font-semibold pr-4">What’s the catch why offer the first 3 jobs free?
+                            </h3>
+                            <svg class="w-6 h-6 text-gray-400 flex-shrink-0 chevron" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 leading-relaxed pt-4">We provide value for free to earn your trust;
+                                once
+                                we've proven the ROI by booking your first 3 jobs, we discuss a partnership sound fair
+                                enough?</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div
+                        class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand transition-hover faq-item reveal reveal-fade reveal-delay-100">
+                        <button class="w-full flex items-center justify-between text-left faq-question">
+                            <h3 class="text-xl font-semibold pr-4">What happens if it doesn’t actually book jobs for my
+                                business?</h3>
+                            <svg class="w-6 h-6 text-gray-400 flex-shrink-0 chevron" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 leading-relaxed pt-4">If the system doesn’t book you 3 new jobs, we
+                                part
+                                ways as friends and you keep every lead we generated for free.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div
+                        class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand transition-hover faq-item reveal reveal-fade reveal-delay-200">
+                        <button class="w-full flex items-center justify-between text-left faq-question">
+                            <h3 class="text-xl font-semibold pr-4">What if we already have someone answering our phones
+                                during the day?</h3>
+                            <svg class="w-6 h-6 text-gray-400 flex-shrink-0 chevron" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 leading-relaxed pt-4">Your team is world-class but limited by
+                                physics;
+                                we are an exponential safety net that catches the calls they physically cannot</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div
+                        class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand transition-hover faq-item">
+                        <button class="w-full flex items-center justify-between text-left faq-question">
+                            <h3 class="text-xl font-semibold pr-4">How much does it cost?</h3>
+                            <svg class="w-6 h-6 text-gray-400 flex-shrink-0 chevron" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 leading-relaxed pt-4">We only discuss pricing after we've booked
+                                your
+                                next 3 jobs to ensure the system is self-funding from your new revenue</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div
+                        class="bg-white border border-gray-200 rounded-2xl p-8 hover:border-brand transition-hover faq-item">
+                        <button class="w-full flex items-center justify-between text-left faq-question">
+                            <h3 class="text-xl font-semibold pr-4">Is this just for garage door companies?</h3>
+                            <svg class="w-6 h-6 text-gray-400 flex-shrink-0 chevron" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 leading-relaxed pt-4">We specialize in garage door businesses
+                                because we
+                                understand the emergency call flow, pricing models, and peak times. This isn't generic
+                                AI.
+                                It's built for your industry.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="px-6 md:px-0 py-20 px-6 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 reveal reveal-fade">
+                    <h2 class="text-4xl md:text-5xl font-semibold tracking-tighter mb-12">
+                        Ready to Stop Losing Jobs?
+                    </h2>
+                    <p class="text-lg md:text-xl text-gray-500 max-w-3xl mx-auto">
+                        We only take <span class="text-red-400 font-semibold">5 companies per month</span> to fully
+                        customize and monitor each system until it books real jobs.
+                    </p>
+                </div>
+
+                <!-- Single CTA Button -->
+                <div class="flex justify-center">
+                    <a href="https://cal.com/flowwise/15min" target="_blank" rel="noopener"
+                        class="inline-flex items-center gap-3 bg-brand text-white rounded-2xl px-12 py-6 text-xl font-semibold hover:bg-brand-dark hover-scale transition-hover shadow-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Book Free Revenue Audit
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-100 pt-16 pb-8 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
+                    <!-- Left Column: Logo & Socials -->
+                    <div class="max-w-sm space-y-6">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 bg-brand rounded-full flex items-center justify-center shrink-0 shadow-sm shadow-brand/20">
+                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <span class="font-bold text-[1.375rem] tracking-tight">FlowWise</span>
+                        </div>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            An AI-powered voice assistant designed to help garage door companies capture leads, build
+                            stronger customer relationships, and book jobs 24/7.
+                        </p>
+                        <!-- Social Icons -->
+                        <div class="flex items-center gap-5">
+                            <a href="#" class="text-gray-400 hover:text-brand transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-brand transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-brand transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4.162 4.162 0 110-8.324 4.162 4.162 0 010 8.324zM18.406 4.337a1.44 1.44 0 100 2.88a1.44 1.44 0 000-2.88z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-brand transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Navigation -->
+                    <div class="space-y-6">
+                        <h4 class="font-bold text-gray-900">Pages</h4>
+                        <ul class="flex flex-wrap gap-x-8 gap-y-4">
+                            <li><a href="preview.html" class="text-gray-500 hover:text-brand transition-colors">Home</a>
+                            </li>
+                            <li><a href="about.html" class="text-gray-500 hover:text-brand transition-colors">About
+                                    us</a></li>
+                            <li><a href="contact.html"
+                                    class="text-gray-500 hover:text-brand transition-colors">Contact</a></li>
+                            <li><a href="#faq" class="text-gray-500 hover:text-brand transition-colors">FAQ</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="pt-8 border-t border-gray-100 text-center md:text-left">
+                    <p class="text-gray-400 text-sm">
+                        © 2026 FlowWise. Built for the Ambitious.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- FAQ Toggle Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const faqItems = document.querySelectorAll('.faq-item');
+
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question');
+                    const answer = item.querySelector('.faq-answer');
+                    const chevron = item.querySelector('.chevron');
+
+                    question.addEventListener('click', () => {
+                        // Toggle active class
+                        answer.classList.toggle('active');
+                        chevron.classList.toggle('active');
+                    });
+                });
+            });
+        </script>
+
+
+        <!-- Dynamic Navbar Script -->
+        <script>
+            const navContainer = document.getElementById('nav-container');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    // Scrolled State
+                    navContainer.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-lg', 'border', 'border-gray-100/50', 'py-3');
+                    navContainer.classList.remove('py-4');
+                } else {
+                    // Top State
+                    navContainer.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-lg', 'border', 'border-gray-100/50', 'py-3');
+                    navContainer.classList.add('py-4');
+                }
+            });
+        </script>
+        <!-- Navigation & Animation Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Mobile Menu
+                const menuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+
+                menuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('active');
+                });
+
+                document.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+
+                // Reveal Observer
+                const revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('reveal-visible');
+                            revealObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+            });
+        </script>
+</body>
+
+</html>
