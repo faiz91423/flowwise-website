@@ -212,12 +212,22 @@
     <!-- Navigation -->
 <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-1200">
     <div id="nav-container"
-        class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between transition-all duration-1200 mt-4 px-8 bg-white/80 backdrop-blur-md">
-        <!-- Logo -->
+        class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between rounded-full transition-all duration-1200 mt-4 px-8 bg-white/80 backdrop-blur-md shadow-xl">
+        <!-- Logo (SINGLE) -->
         <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <img src="./logo-icon.png" alt="FlowWise" class="w-10 h-10 md:w-12 md:h-12 object-contain p-2 shrink-0 shadow-lg shadow-blue-500/20 bg-blue-500 p-1">
-            <span class="font-semibold text-lg md:text-[1.375rem] tracking-tight text-gray-900">FlowWise</span>
+            <img src="/logo-icon.png" alt="FlowWise" class="w-10 h-10 md:w-12 md:h-12 object-contain shrink-0 shadow-lg shadow-blue-500/20 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 p-1">
+            <span class="font-semibold text-lg md:text-[1.375rem] tracking-tight text-gray-900 whitespace-nowrap">FlowWise</span>
         </a>
+        
+        <!-- Navigation Links (MISSING - Add these) -->
+        <div class="flex items-center gap-6">
+            <a href="/about.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</a>
+            <a href="/contact.html" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">Contact</a>
+            <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all">Get Free Audit</button>
+        </div>
+    </div>
+</nav>
+
 
 
             <!-- Desktop Actions -->
@@ -1127,6 +1137,7 @@
 
 
 </html>
+
 
 
 
